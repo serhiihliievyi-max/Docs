@@ -45,7 +45,7 @@ Auth       JWT (access + refresh tokens)
 | Схема БД — MVP (DrawSQL)  | [diagrams/car](https://drawsql.app/teams/serhii-hliievyi/diagrams/car)                                                                                    |
 | Схема БД — Full (DrawSQL) | [diagrams/carprod](https://drawsql.app/teams/serhii-hliievyi/diagrams/carprod)                                                                            |
 | Frontend — GitHub         | [lanaogini/car-rental-app](https://github.com/lanaogini/car-rental-app)                                                                                   |
-| Backend — GitHub          | — *(скоро)*                                                                                                                                               |
+| Backend — GitHub          | [ErikDederer/lunar-carsharing-api](https://github.com/ErikDederer/lunar-carsharing-api)                                                                   |
 
 ---
 
