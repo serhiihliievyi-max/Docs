@@ -7,6 +7,7 @@ const PAGES = [
   { label: "🚶 Флоу арендатора", file: "user-flow-renter.md" },
   { label: "🏠 Флоу владельца", file: "user-flow-owner.md" },
   { label: "🖥️ Страницы фронта", file: "pages-frontend.md" },
+  { label: "🌿 Git Flow", file: "git-flow.md" },
 ];
 
 const nav = document.getElementById("nav");
