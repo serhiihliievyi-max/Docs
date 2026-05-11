@@ -9,8 +9,8 @@
 ### 1. Клонировать репозиторий
 
 ```bash
-git clone https://github.com/lanaogini/car-rental-app.git
-cd car-rental-app
+git clone https://github.com/serhiihliievyi-max/Docs.git
+cd Docs
 ```
 
 ### 2. Установить Obsidian
