@@ -11,7 +11,7 @@ related: ["[[api-endpoints]]", "[[tech-decisions]]", "[[project-overview]]"]
 
 ## Что входит в MVP
 
-### Эндпоинты (17 штук)
+### Эндпоинты (20 штук)
 
 **Auth — 4**
 - `POST /auth/register`
