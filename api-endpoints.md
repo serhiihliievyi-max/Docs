@@ -13,6 +13,87 @@ related: ["[[graphql-schema]]", "[[entities]]", "[[mvp-scope]]"]
 
 ---
 
+## Сводная таблица
+
+**Auth**
+
+| Метод | Эндпоинт | Описание | MVP |
+|-------|----------|----------|:---:|
+| POST | `/auth/register` | Регистрация | ✓ |
+| POST | `/auth/login` | Вход | ✓ |
+| POST | `/auth/logout` | Выход | ✓ |
+| POST | `/auth/refresh` | Обновление токена | ✓ |
+| POST | `/auth/forgot-password` | Запрос сброса пароля | — |
+| POST | `/auth/reset-password` | Установка нового пароля | — |
+
+**Users**
+
+| Метод | Эндпоинт | Описание | MVP |
+|-------|----------|----------|:---:|
+| GET | `/users/me` | Свой профиль | ✓ |
+| PATCH | `/users/me` | Обновить профиль | ✓ |
+| POST | `/users/me/avatar` | Загрузить аватар | ✓ |
+| POST | `/users/me/documents` | Загрузить документ | — |
+| GET | `/users/:id` | Публичный профиль | — |
+
+**Cars**
+
+| Метод | Эндпоинт | Описание | MVP |
+|-------|----------|----------|:---:|
+| GET | `/cars` | Поиск с фильтрами | ✓ |
+| GET | `/cars/me` | Мои машины | ✓ |
+| GET | `/cars/:id` | Детали машины | ✓ |
+| POST | `/cars` | Создать машину | ✓ |
+| PATCH | `/cars/:id` | Редактировать машину | ✓ |
+| DELETE | `/cars/:id` | Деактивировать машину | — |
+| POST | `/cars/:id/photos` | Добавить фото | — |
+| DELETE | `/cars/:id/photos/:photoId` | Удалить фото | — |
+
+**Availability**
+
+| Метод | Эндпоинт | Описание | MVP |
+|-------|----------|----------|:---:|
+| GET | `/cars/:id/availability` | Календарь доступности | ✓ |
+| POST | `/cars/:id/availability` | Добавить период | ✓ |
+| DELETE | `/cars/:id/availability/:slotId` | Удалить период | ✓ |
+
+**Bookings**
+
+| Метод | Эндпоинт | Описание | MVP |
+|-------|----------|----------|:---:|
+| POST | `/bookings` | Создать заявку | ✓ |
+| GET | `/bookings/my` | Мои брони (арендатор) | ✓ |
+| GET | `/bookings/incoming` | Входящие (владелец) | ✓ |
+| GET | `/bookings/:id` | Детали брони | ✓ |
+| PATCH | `/bookings/:id/confirm` | Подтвердить | ✓ |
+| PATCH | `/bookings/:id/cancel` | Отменить | ✓ |
+| PATCH | `/bookings/:id/complete` | Завершить | — |
+
+**Payments**
+
+| Метод | Эндпоинт | Описание | MVP |
+|-------|----------|----------|:---:|
+| POST | `/payments/intent` | Создать PaymentIntent (Stripe) | — |
+| POST | `/payments/webhook` | Вебхук от Stripe | — |
+| GET | `/payments/history` | История платежей | — |
+
+**Reviews**
+
+| Метод | Эндпоинт | Описание | MVP |
+|-------|----------|----------|:---:|
+| POST | `/reviews` | Оставить отзыв | ✓ |
+| GET | `/reviews/car/:carId` | Отзывы на машину | ✓ |
+| GET | `/reviews/user/:userId` | Отзывы на пользователя | — |
+
+**Messages**
+
+| Метод | Эндпоинт | Описание | MVP |
+|-------|----------|----------|:---:|
+| GET | `/messages/:bookingId` | История чата | ✓ |
+| POST | `/messages/:bookingId` | Отправить сообщение | ✓ |
+
+---
+
 ## Auth
 
 | Метод | Эндпоинт | Описание | MVP |
@@ -248,7 +329,7 @@ Authorization: Bearer <token>
 | POST | `/messages/:bookingId` | Отправить сообщение | ✓ |
 
 > [!warning] MVP
-> Реализуется как простой REST чат. Realtime (WebSocket) — v2.
+> Пока нету но можно реализуеть как простой REST чат. Realtime (WebSocket) — v2.
 
 ---
 
@@ -269,5 +350,4 @@ Authorization: Bearer <token>
 ## Связанные страницы
 
 - [[mvp-scope]] — сокращённый список для MVP
-- [[graphql-schema]] — альтернативная GraphQL схема
 - [[entities]] — сущности БД

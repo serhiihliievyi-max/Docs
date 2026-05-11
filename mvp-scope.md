@@ -92,4 +92,3 @@ related: ["[[api-endpoints]]", "[[tech-decisions]]", "[[project-overview]]"]
 
 - [[api-endpoints]] — полный список эндпоинтов
 - [[project-overview]] — описание продукта
-- [[tech-decisions]] — архитектурные решения

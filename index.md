@@ -36,6 +36,19 @@ Storage    Supabase Storage (фото)
 Auth       JWT (access + refresh tokens)
 ```
 
+## Команда и ресурсы
+
+| Ресурс | Ссылка |
+| ------ | ------ |
+| Zoom встречи | [us02web.zoom.us/j/84171723335](https://us02web.zoom.us/j/84171723335) |
+| Описание идеи (Mural) | [app.mural.co — lunarcarsharing](https://app.mural.co/t/lunarcarsharing6383/m/lunarcarsharing6383/1778265169667/343aa7bd990825880eab80a0d99c2a04e1ce6bf5) |
+| Схема БД — MVP (DrawSQL) | [diagrams/car](https://drawsql.app/teams/serhii-hliievyi/diagrams/car) |
+| Схема БД — Full (DrawSQL) | [diagrams/carprod](https://drawsql.app/teams/serhii-hliievyi/diagrams/carprod) |
+| Frontend — GitHub | [lanaogini/car-rental-app](https://github.com/lanaogini/car-rental-app) |
+| Backend — GitHub | — *(скоро)* |
+
+---
+
 ## Быстрый старт
 
 ```mermaid

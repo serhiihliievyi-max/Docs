@@ -11,16 +11,38 @@ related: ["[[graphql-schema]]", "[[api-endpoints]]", "[[tech-decisions]]"]
 
 Основная сущность пользователя. Нет разделения на роли — один юзер может и сдавать и арендовать.
 
-| Поле       | Тип            | Описание                                         |
-| ---------- | -------------- | ------------------------------------------------ |
-| id         | UUID PK        | Первичный ключ                                   |
-| email      | VARCHAR UNIQUE | Email (логин)                                    |
-| password   | VARCHAR        | Хэш пароля                                       |
-| phone      | VARCHAR        | Телефон (показывается после подтверждения брони) |
-| first_name | VARCHAR        | Имя                                              |
-| last_name  | VARCHAR        | Фамилия                                          |
-| avatar_url | VARCHAR        | Ссылка на фото профиля (в МВП base64)            |
-| created_at | TIMESTAMP      | Дата регистрации                                 |
+| Поле          | Тип            | Описание                                         |
+| ------------- | -------------- | ------------------------------------------------ |
+| id            | UUID PK        | Первичный ключ                                   |
+| email         | VARCHAR UNIQUE | Email (логин)                                    |
+| password_hash | VARCHAR        | Хэш пароля (bcrypt)                              |
+| phone         | VARCHAR        | Телефон (показывается после подтверждения брони) |
+| first_name    | VARCHAR        | Имя                                              |
+| last_name     | VARCHAR        | Фамилия                                          |
+| avatar_url    | VARCHAR        | Ссылка на фото профиля (в МВП base64)            |
+| is_verified   | BOOLEAN        | Флаг верификации, проставляется вручную          |
+| created_at    | TIMESTAMP      | Дата регистрации                                 |
+
+---
+
+## refresh_tokens
+
+Refresh токены для ротации JWT. Access токен короткоживущий (15 мин), refresh — долгоживущий (30 дней). При логауте или рефреше старый токен инвалидируется.
+
+| Поле       | Тип             | Описание                              |
+| ---------- | --------------- | ------------------------------------- |
+| id         | UUID PK         | Первичный ключ                        |
+| user_id    | UUID FK → users | Владелец токена                       |
+| token_hash | VARCHAR UNIQUE  | Хэш refresh токена (не хранить plain) |
+| expires_at | TIMESTAMP       | Срок действия                         |
+| created_at | TIMESTAMP       | Дата создания                         |
+| revoked_at | TIMESTAMP       | Дата отзыва (NULL = активный)         |
+
+> [!info] Стратегия токенов
+> - **Access token** — JWT, 15 минут, stateless, проверяется только подписью
+> - **Refresh token** — opaque, 30 дней, хранится хэш в БД
+> - При `POST /auth/refresh` — старый refresh инвалидируется (`revoked_at`), выдаётся новая пара
+> - При `POST /auth/logout` — refresh помечается как отозванный
 
 ---
 
@@ -160,16 +182,16 @@ stateDiagram-v2
 
 Отзывы после завершения аренды.
 
-| Поле | Тип | Описание |
-|------|-----|----------|
-| id | UUID PK | Первичный ключ |
-| booking_id | UUID FK → bookings | Бронь |
-| author_id | UUID FK → users | Кто оставил отзыв |
-| car_id | UUID FK → cars | Машина (если отзыв на машину) |
-| rating | INT | Оценка 1–5 |
-| comment | TEXT | Текстовый комментарий |
-| type | ENUM | `car` / `user` |
-| created_at | TIMESTAMP | Дата отзыва |
+| Поле       | Тип                | Описание                      |
+| ---------- | ------------------ | ----------------------------- |
+| id         | UUID PK            | Первичный ключ                |
+| booking_id | UUID FK → bookings | Бронь                         |
+| author_id  | UUID FK → users    | Кто оставил отзыв             |
+| car_id     | UUID FK → cars     | Машина (если отзыв на машину) |
+| rating     | INT                | Оценка 1–5                    |
+| comment    | TEXT               | Текстовый комментарий         |
+| type       | ENUM               | `car` / `user`                |
+| created_at | TIMESTAMP          | Дата отзыва                   |
 
 > [!info] Два вида отзывов (В МВП упростим)
 > После завершения брони обе стороны могут оставить отзыв:
@@ -195,8 +217,82 @@ stateDiagram-v2
 
 ---
 
+## 🎯 MVP Scope
+
+### Сущности в MVP
+
+| Таблица            | Статус | Комментарий                                     |
+| ------------------ | ------ | ----------------------------------------------- |
+| `users`            | ✅ MVP  | + поле `is_verified` вместо `user_documents`    |
+| `cars`             | ✅ MVP  | Полная карточка                                 |
+| `car_photos`       | ✅ MVP  | Фото машины                                     |
+| `car_availability` | ✅ MVP  | Календарь доступности                           |
+| `bookings`         | ✅ MVP  | Без перехода в `ACTIVE` — только до `CONFIRMED` |
+| `reviews`          | ✅ MVP  | Только `type: car`, отзывы на пользователя в v2 |
+| `user_documents`   | ❌ v2   | Можно заменено полем `is_verified` в `users`    |
+| `payments`         | ❌ v2   | Весь модуль отложен, `provider: cash` вручную   |
+| `messages`         | ❌ v2   | Чат отложен, стороны общаются по телефону       |
+
+---
+
+### Поля/статусы исключённые из MVP
+
+| Таблица    | Что убрано                           | Причина                                                 |
+| ---------- | ------------------------------------ | ------------------------------------------------------- |
+| `users`    | `user_documents` (отдельная таблица) | Верификация вручную через `is_verified` (пока без него) |
+| `bookings` | статус `ACTIVE`                      | `CONFIRMED → COMPLETED` напрямую в MVP                  |
+
+---
+
+### API Эндпоинты MVP (17 штук)
+
+**Auth — 4**
+
+| Метод | Эндпоинт | Описание |
+|-------|----------|----------|
+| POST | `/auth/register` | Регистрация |
+| POST | `/auth/login` | Вход |
+| POST | `/auth/logout` | Выход |
+| POST | `/auth/refresh` | Обновление токена |
+
+**Users — 3**
+
+| Метод | Эндпоинт | Описание |
+|-------|----------|----------|
+| GET | `/users/me` | Свой профиль |
+| PATCH | `/users/me` | Обновить профиль |
+| POST | `/users/me/avatar` | Загрузить аватар |
+
+**Cars — 5**
+
+| Метод | Эндпоинт | Описание |
+|-------|----------|----------|
+| GET | `/cars` | Поиск с фильтрами |
+| GET | `/cars/me` | Мои машины |
+| GET | `/cars/:id` | Детали машины |
+| POST | `/cars` | Создать машину |
+| PATCH | `/cars/:id` | Редактировать машину |
+
+**Availability — 3**
+
+| Метод | Эндпоинт | Описание |
+|-------|----------|----------|
+| GET | `/cars/:id/availability` | Календарь доступности |
+| POST | `/cars/:id/availability` | Добавить период |
+| DELETE | `/cars/:id/availability/:slotId` | Удалить период |
+
+**Bookings — 5**
+
+| Метод | Эндпоинт                | Описание              |
+| ----- | ----------------------- | --------------------- |
+| POST  | `/bookings`             | Создать заявку        |
+| GET   | `/bookings/my`          | Мои брони (арендатор) |
+| GET   | `/bookings/incoming`    | Входящие (владелец)   |
+| PATCH | `/bookings/:id/confirm` | Подтвердить           |
+| PATCH | `/bookings/:id/cancel`  | Отменить              |
+
+---
+
 ## Связанные страницы
 
-- [[graphql-schema]] — GraphQL типы для этих сущностей
 - [[api-endpoints]] — REST эндпоинты
-- [[tech-decisions]] — архитектурные решения по БД
