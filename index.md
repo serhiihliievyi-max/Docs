@@ -45,8 +45,9 @@ Auth       JWT (access + refresh tokens)
 | Описание идеи (Mural)     | [app.mural.co — lunarcarsharing](https://app.mural.co/t/lunarcarsharing6383/m/lunarcarsharing6383/1778265169667/343aa7bd990825880eab80a0d99c2a04e1ce6bf5) |
 | Схема БД — MVP (DrawSQL)  | [diagrams/car](https://drawsql.app/teams/serhii-hliievyi/diagrams/car)                                                                                    |
 | Схема БД — Full (DrawSQL) | [diagrams/carprod](https://drawsql.app/teams/serhii-hliievyi/diagrams/carprod)                                                                            |
-| Frontend — GitHub         | [lanaogini/car-rental-app](https://github.com/lanaogini/car-rental-app)                                                                                   |
+| Frontend — GitHub         | [iastreboleksandr-svg/car-rental-app](https://github.com/iastreboleksandr-svg/car-rental-app)                                                             |
 | Backend — GitHub          | [ErikDederer/lunar-carsharing-api](https://github.com/ErikDederer/lunar-carsharing-api)                                                                   |
+|                           |                                                                                                                                                           |
 
 ---
 
