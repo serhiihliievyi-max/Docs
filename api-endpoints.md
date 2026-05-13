@@ -49,13 +49,13 @@ related: ["[[graphql-schema]]", "[[entities]]", "[[mvp-scope]]"]
 | POST | `/cars/:id/photos` | Добавить фото | — |
 | DELETE | `/cars/:id/photos/:photoId` | Удалить фото | — |
 
-**Availability**
+**Slots**
 
 | Метод | Эндпоинт | Описание | MVP |
 |-------|----------|----------|:---:|
-| GET | `/cars/:id/availability` | Календарь доступности | ✓ |
-| POST | `/cars/:id/availability` | Добавить период | ✓ |
-| DELETE | `/cars/:id/availability/:slotId` | Удалить период | ✓ |
+| GET | `/cars/:id/slots` | Календарь доступности | ✓ |
+| POST | `/cars/:id/slots` | Добавить период | ✓ |
+| DELETE | `/cars/:id/slots/:slotId` | Удалить период | ✓ |
 
 **Bookings**
 
@@ -220,25 +220,25 @@ Authorization: Bearer <token>
 
 ---
 
-## Availability
+## Slots
 
 | Метод | Эндпоинт | Описание | MVP |
 |-------|----------|----------|-----|
-| GET | `/cars/:id/availability` | Получить доступность машины | ✓ |
-| POST | `/cars/:id/availability` | Добавить период доступности | ✓ |
-| DELETE | `/cars/:id/availability/:slotId` | Удалить период | ✓ |
+| GET | `/cars/:id/slots` | Получить доступность машины | ✓ |
+| POST | `/cars/:id/slots` | Добавить период доступности | ✓ |
+| DELETE | `/cars/:id/slots/:slotId` | Удалить период | ✓ |
 
 ### Примеры
 
 ```http
-POST /cars/:id/availability
+POST /cars/:id/slots
 Authorization: Bearer <token>
 {
   "dateFrom": "2025-06-01",
   "dateTo": "2025-06-30",
   "period_type": "available"
 }
-→ { availability }
+→ { slots }
 ```
 
 ---
@@ -339,7 +339,7 @@ Authorization: Bearer <token>
 | Auth | 6 | 4 |
 | Users | 5 | 4 |
 | Cars | 8 | 7 |
-| Availability | 3 | 3 |
+| Slots | 3 | 3 |
 | Bookings | 7 | 6 |
 | Payments | 3 | 0 |
 | Reviews | 3 | 2 |

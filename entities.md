@@ -101,7 +101,7 @@ Refresh токены для ротации JWT. Access токен коротко
 
 ---
 
-## car_availability
+## car_slots
 
 Календарь доступности машины.
 
@@ -222,7 +222,7 @@ stateDiagram-v2
 | `users`            | ✅ MVP  | + поле `is_blocked` для блокировки аккаунта     |
 | `cars`             | ✅ MVP  | Полная карточка                                 |
 | `car_photos`       | ✅ MVP  | Фото машины                                     |
-| `car_availability` | ✅ MVP  | Календарь доступности                           |
+| `car_slots` | ✅ MVP  | Календарь доступности                           |
 | `bookings`         | ✅ MVP  | Без перехода в `ACTIVE` — только до `CONFIRMED` |
 | `reviews`          | ✅ MVP  | Только `type: car`, отзывы на пользователя в v2 |
 | `user_documents`   | ❌ v2   | Можно заменено полем `is_verified` в `users`    |
@@ -269,13 +269,13 @@ stateDiagram-v2
 | POST | `/cars` | Создать машину |
 | PATCH | `/cars/:id` | Редактировать машину |
 
-**Availability — 3**
+**Slots — 3**
 
 | Метод | Эндпоинт | Описание |
 |-------|----------|----------|
-| GET | `/cars/:id/availability` | Календарь доступности |
-| POST | `/cars/:id/availability` | Добавить период |
-| DELETE | `/cars/:id/availability/:slotId` | Удалить период |
+| GET | `/cars/:id/slots` | Календарь доступности |
+| POST | `/cars/:id/slots` | Добавить период |
+| DELETE | `/cars/:id/slots/:slotId` | Удалить период |
 
 **Bookings — 5**
 

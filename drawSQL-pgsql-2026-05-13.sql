@@ -18,10 +18,10 @@ CREATE TABLE "car_photos"(
     "id" UUID NOT NULL DEFAULT UUID(), "car_id" UUID NOT NULL, "url" VARCHAR(500) NOT NULL, "sort_order" INTEGER NOT NULL);
 ALTER TABLE
     "car_photos" ADD PRIMARY KEY("id");
-CREATE TABLE "car_availability"(
+CREATE TABLE "car_slots"(
     "id" UUID NOT NULL DEFAULT UUID(), "car_id" UUID NOT NULL, "date_from" DATE NOT NULL, "date_to" DATE NOT NULL, "period_type" INTEGER NOT NULL DEFAULT 'available');
 ALTER TABLE
-    "car_availability" ADD PRIMARY KEY("id");
+    "car_slots" ADD PRIMARY KEY("id");
 CREATE TABLE "bookings"(
     "id" UUID NOT NULL DEFAULT UUID(), "car_id" UUID NOT NULL, "renter_id" UUID NOT NULL, "start_at" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, "end_at" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, "total_price" DECIMAL(10, 2) NOT NULL, "deposit_amount" DECIMAL(10, 2) NOT NULL, "booking_status" INTEGER NOT NULL DEFAULT 'PENDING', "created_at" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP);
 ALTER TABLE
@@ -39,4 +39,4 @@ ALTER TABLE
 ALTER TABLE
     "cars" ADD CONSTRAINT "cars_owner_id_foreign" FOREIGN KEY("owner_id") REFERENCES "users"("id");
 ALTER TABLE
-    "car_availability" ADD CONSTRAINT "car_availability_car_id_foreign" FOREIGN KEY("car_id") REFERENCES "cars"("id");
+    "car_slots" ADD CONSTRAINT "car_slots_car_id_foreign" FOREIGN KEY("car_id") REFERENCES "cars"("id");

@@ -31,10 +31,10 @@ related: ["[[api-endpoints]]", "[[tech-decisions]]", "[[project-overview]]"]
 - `POST /cars`
 - `PATCH /cars/:id`
 
-**Availability — 3**
-- `GET /cars/:id/availability`
-- `POST /cars/:id/availability`
-- `DELETE /cars/:id/availability/:slotId`
+**Slots — 3**
+- `GET /cars/:id/slots`
+- `POST /cars/:id/slots`
+- `DELETE /cars/:id/slots/:slotId`
 
 **Bookings — 5**
 - `POST /bookings`
