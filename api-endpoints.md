@@ -236,7 +236,7 @@ Authorization: Bearer <token>
 {
   "dateFrom": "2025-06-01",
   "dateTo": "2025-06-30",
-  "type": "available"
+  "period_type": "available"
 }
 → { availability }
 ```
@@ -273,13 +273,13 @@ Authorization: Bearer <token>
   "startAt": "2025-06-01T10:00:00Z",
   "endAt": "2025-06-05T10:00:00Z"
 }
-→ { booking: { id, status: "pending", totalPrice: 200 } }
+→ { booking: { id, booking_status: "PENDING", totalPrice: 200 } }
 ```
 
 ```http
 PATCH /bookings/:id/confirm
 Authorization: Bearer <token>   ← только владелец машины
-→ { booking: { status: "confirmed" } }
+→ { booking: { booking_status: "CONFIRMED" } }
 ```
 
 ---
@@ -311,10 +311,9 @@ Authorization: Bearer <token>   ← только владелец машины
 POST /reviews
 Authorization: Bearer <token>
 {
-  "bookingId": "uuid-booking",
+  "carId": "uuid-car",
   "rating": 5,
-  "comment": "Отличная машина, всё чисто и вовремя",
-  "type": "car"
+  "comment": "Отличная машина, всё чисто и вовремя"
 }
 → { review }
 ```

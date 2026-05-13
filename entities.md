@@ -20,7 +20,7 @@ related: ["[[graphql-schema]]", "[[api-endpoints]]", "[[tech-decisions]]"]
 | first_name    | VARCHAR        | Имя                                              |
 | last_name     | VARCHAR        | Фамилия                                          |
 | avatar_url    | VARCHAR        | Ссылка на фото профиля (в МВП base64)            |
-| is_verified   | BOOLEAN        | Флаг верификации, проставляется вручную          |
+| is_blocked    | BOOLEAN        | Флаг блокировки аккаунта, проставляется вручную  |
 | created_at    | TIMESTAMP      | Дата регистрации                                 |
 
 ---
@@ -77,7 +77,7 @@ Refresh токены для ротации JWT. Access токен коротко
 | description   | TEXT            | Описание от владельца                       |
 | price_per_day | DECIMAL         | Цена аренды за день                         |
 | deposit       | DECIMAL         | Залог (депозит)                             |
-| status        | ENUM            | `active` / `inactive` / `rented`            |
+| car_status    | ENUM            | `active` / `inactive` / `rented`            |
 | lat           | DECIMAL         | Широта геолокации                           |
 | lng           | DECIMAL         | Долгота геолокации                          |
 | address       | VARCHAR         | Текстовый адрес                             |
@@ -96,7 +96,7 @@ Refresh токены для ротации JWT. Access токен коротко
 | ---------- | -------------- | ---------------------------------------------------- |
 | id         | UUID PK        | Первичный ключ                                       |
 | car_id     | UUID FK → cars | Машина                                               |
-| url        | VARCHAR        | Ссылка на фото в Supabase Storage (или base64 в МВП) |
+| car_photo_url | VARCHAR     | Ссылка на фото в Supabase Storage (или base64 в МВП) |
 | sort_order | INT            | Порядок отображения (0 = главное фото)               |
 
 ---
@@ -109,12 +109,12 @@ Refresh токены для ротации JWT. Access токен коротко
 |------|-----|----------|
 | id | UUID PK | Первичный ключ |
 | car_id | UUID FK → cars | Машина |
-| date_from | DATE | Начало периода |
-| date_to | DATE | Конец периода |
-| type | ENUM | `available` / `blocked` |
+| date_from   | DATE | Начало периода |
+| date_to     | DATE | Конец периода |
+| period_type | ENUM | `available` / `blocked` |
 
 > [!warning] Логика доступности
-> Если у машины нет записей в этой таблице — она считается **всегда доступной** (дефолтная открытость). Записи с типом `BLOCKED` закрывают конкретные даты. При поиске система проверяет: нет активных броней И нет BLOCKED периодов на запрашиваемые даты.
+> Если у машины нет записей в этой таблице — она считается **всегда доступной** (дефолтная открытость). Записи с `period_type = blocked` закрывают конкретные даты. При поиске система проверяет: нет активных броней И нет `blocked` периодов на запрашиваемые даты.
 
 ---
 
@@ -131,7 +131,7 @@ Refresh токены для ротации JWT. Access токен коротко
 | end_at | TIMESTAMP | Конец аренды |
 | total_price | DECIMAL | Итоговая сумма |
 | deposit_amount | DECIMAL | Размер депозита |
-| status | ENUM | Статус брони (см. ниже) |
+| booking_status | ENUM | Статус брони (см. ниже) |
 | created_at | TIMESTAMP | Дата создания заявки |
 
 ### Статус-машина брони
@@ -185,18 +185,14 @@ stateDiagram-v2
 | Поле       | Тип                | Описание                      |
 | ---------- | ------------------ | ----------------------------- |
 | id         | UUID PK            | Первичный ключ                |
-| booking_id | UUID FK → bookings | Бронь                         |
-| author_id  | UUID FK → users    | Кто оставил отзыв             |
-| car_id     | UUID FK → cars     | Машина (если отзыв на машину) |
-| rating     | INT                | Оценка 1–5                    |
-| comment    | TEXT               | Текстовый комментарий         |
-| type       | ENUM               | `car` / `user`                |
-| created_at | TIMESTAMP          | Дата отзыва                   |
+| author_id  | UUID FK → users | Кто оставил отзыв |
+| car_id     | UUID FK → cars  | Машина            |
+| rating     | INT             | Оценка 1–5        |
+| comment    | TEXT            | Текстовый комментарий |
+| created_at | TIMESTAMP       | Дата отзыва       |
 
-> [!info] Два вида отзывов (В МВП упростим)
-> После завершения брони обе стороны могут оставить отзыв:
-> - Арендатор → отзыв на **машину** (`type: car`) и на **владельца** (`type: user`)
-> - Владелец → отзыв на **арендатора** (`type: user`)
+> [!info] Standalone таблица
+> Пока не привязана к конкретной брони — просто отзыв от пользователя на машину. Связь с `bookings` добавим в v2 когда будет полный цикл завершения аренды.
 
 ---
 
@@ -223,7 +219,7 @@ stateDiagram-v2
 
 | Таблица            | Статус | Комментарий                                     |
 | ------------------ | ------ | ----------------------------------------------- |
-| `users`            | ✅ MVP  | + поле `is_verified` вместо `user_documents`    |
+| `users`            | ✅ MVP  | + поле `is_blocked` для блокировки аккаунта     |
 | `cars`             | ✅ MVP  | Полная карточка                                 |
 | `car_photos`       | ✅ MVP  | Фото машины                                     |
 | `car_availability` | ✅ MVP  | Календарь доступности                           |
@@ -239,7 +235,7 @@ stateDiagram-v2
 
 | Таблица    | Что убрано                           | Причина                                                 |
 | ---------- | ------------------------------------ | ------------------------------------------------------- |
-| `users`    | `user_documents` (отдельная таблица) | Верификация вручную через `is_verified` (пока без него) |
+| `users`    | `user_documents` (отдельная таблица) | Блокировка через `is_blocked`, проставляется вручную    |
 | `bookings` | статус `ACTIVE`                      | `CONFIRMED → COMPLETED` напрямую в MVP                  |
 
 ---
