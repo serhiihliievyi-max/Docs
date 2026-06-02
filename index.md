@@ -48,6 +48,7 @@ Auth       JWT (access + refresh tokens)
 | Frontend — GitHub         | [iastreboleksandr-svg/car-rental-app](https://github.com/iastreboleksandr-svg/car-rental-app)                                                             |
 | Backend — GitHub          | [ErikDederer/lunar-carsharing-api](https://github.com/ErikDederer/lunar-carsharing-api)                                                                   |
 | User Stories (Sheets)     | [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1s8yVE5FVqanSywdI0VsvSjSF10spPK1GNaYxCSsGCSE/edit?gid=0#gid=0)                               |
+| Staging (Vercel) (тестовый прод)         | [car-rental-app staging](https://car-rental-app-git-dev-iastreboleksandr-svgs-projects.vercel.app/login)                                                  |
 
 ---
 
