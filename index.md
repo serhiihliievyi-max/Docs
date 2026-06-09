@@ -39,16 +39,16 @@ Auth       JWT (access + refresh tokens)
 
 ## Команда и ресурсы
 
-| Ресурс                    | Ссылка                                                                                                                                                    |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Zoom встречи              | [us02web.zoom.us/j/84171723335](https://us02web.zoom.us/j/84171723335)                                                                                    |
-| Описание идеи (Mural)     | [app.mural.co — lunarcarsharing](https://app.mural.co/t/lunarcarsharing6383/m/lunarcarsharing6383/1778265169667/343aa7bd990825880eab80a0d99c2a04e1ce6bf5) |
-| Схема БД — MVP (DrawSQL)  | [diagrams/car](https://drawsql.app/teams/serhii-hliievyi/diagrams/car)                                                                                    |
-| Схема БД — Full (DrawSQL) | [diagrams/carprod](https://drawsql.app/teams/serhii-hliievyi/diagrams/carprod)                                                                            |
-| Frontend — GitHub         | [iastreboleksandr-svg/car-rental-app](https://github.com/iastreboleksandr-svg/car-rental-app)                                                             |
-| Backend — GitHub          | [ErikDederer/lunar-carsharing-api](https://github.com/ErikDederer/lunar-carsharing-api)                                                                   |
-| User Stories (Sheets)     | [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1s8yVE5FVqanSywdI0VsvSjSF10spPK1GNaYxCSsGCSE/edit?gid=0#gid=0)                               |
-| Staging (Vercel) (тестовый прод)         | [car-rental-app staging](https://car-rental-app-git-dev-iastreboleksandr-svgs-projects.vercel.app/login)                                                  |
+| Ресурс                           | Ссылка                                                                                                                                                    |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Zoom встречи                     | [us02web.zoom.us/j/84171723335](https://us02web.zoom.us/j/84171723335)                                                                                    |
+| Описание идеи (Mural)            | [app.mural.co — lunarcarsharing](https://app.mural.co/t/lunarcarsharing6383/m/lunarcarsharing6383/1778265169667/343aa7bd990825880eab80a0d99c2a04e1ce6bf5) |
+| Схема БД — MVP (DrawSQL)         | [diagrams/car](https://drawsql.app/teams/serhii-hliievyi/diagrams/car)                                                                                    |
+| Схема БД — Full (DrawSQL)        | [diagrams/carprod](https://drawsql.app/teams/serhii-hliievyi/diagrams/carprod)                                                                            |
+| Frontend — GitHub                | [iastreboleksandr-svg/car-rental-app](https://github.com/iastreboleksandr-svg/car-rental-app)                                                             |
+| Backend — GitHub                 | [ErikDederer/lunar-carsharing-api](https://github.com/ErikDederer/lunar-carsharing-api)                                                                   |
+| User Stories (Sheets)            | [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1s8yVE5FVqanSywdI0VsvSjSF10spPK1GNaYxCSsGCSE/edit?gid=0#gid=0)                                |
+| Staging (Vercel) (тестовый прод) | [car-rental-app staging](https://car-rental-app-woad-two.vercel.app)                                                                                      |
 
 ---
 
